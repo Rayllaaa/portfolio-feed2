@@ -1,141 +1,138 @@
-import { useState } from 'react';
-import { Heart, MessageCircle, Share2, Bookmark } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { Heart, MessageCircle, Share2, Bookmark, Play } from 'lucide-react';
 
 interface Post {
   id: number;
-  type: 'project' | 'process' | 'essay' | 'case-study';
+  type: 'video' | 'article';
   title: string;
   description: string;
-  tag: string;
-  image: string;
+  tags: string[];
+  image?: string;
+  youtubeId?: string;
+  content?: string;
+  client?: string;
+  date: string;
   likes: number;
-  comments: number;
-  shares: number;
-  timestamp: string;
-  fullContent?: string;
-  context?: string;
-  tools?: string[];
 }
 
-const posts: Post[] = [
+const allPosts: Post[] = [
   {
     id: 1,
-    type: 'project',
-    title: 'Identidade Visual: Aurora',
-    description: 'Um projeto focado em minimalismo e tons pastéis para uma marca de cosméticos naturais.',
-    tag: 'Portfólio',
-    image: 'https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=800&q=80',
+    type: 'video',
+    title: 'Reels para Ecommerce: Conversão em 15 segundos',
+    description: 'Como criar vídeos curtos que vendem. Estratégia de storytelling para aumentar conversão.',
+    tags: ['ecommerce', 'reels', 'marketing'],
+    image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=formathttps://images.unsplash.com/photo-1516321318423-f06f70504c11?auto=format&fit=crop&w=800&q=80fit=crophttps://images.unsplash.com/photo-1516321318423-f06f70504c11?auto=format&fit=crop&w=800&q=80w=800https://images.unsplash.com/photo-1516321318423-f06f70504c11?auto=format&fit=crop&w=800&q=80q=80',
+    youtubeId: 'dQw4w9WgXcQ',
+    client: 'Cliente A',
+    date: '2024-04-15',
     likes: 234,
-    comments: 18,
-    shares: 12,
-    timestamp: 'há 2 horas',
-    fullContent: 'O desafio era criar uma marca que transmitisse pureza e sofisticação sem usar os clichês do setor verde/natureza. Iniciamos com um moodboard focado em texturas minerais e luz matinal. O resultado é uma tipografia customizada e uma paleta neutra com toques de lilás.',
-    context: 'Cliente: Aurora Cosmetics | Ano: 2023',
-    tools: ['Figma', 'Adobe XD', 'Illustrator'],
   },
   {
     id: 2,
-    type: 'process',
-    title: 'Bastidores: O Processo Criativo',
-    description: 'Como organizo meus projetos do rascunho à entrega final usando Notion e Figma.',
-    tag: 'Bastidores',
-    image: 'https://images.unsplash.com/photo-1542744094-24638eff58bb?auto=format&fit=crop&w=800&q=80',
-    likes: 156,
-    comments: 24,
-    shares: 8,
-    timestamp: 'ontem',
-    fullContent: 'Muitos clientes perguntam como chegamos ao resultado final. Aqui mostro a "cozinha" do estúdio. Cada projeto passa por 4 fases: Imersão, Ideação, Prototipagem e Refinamento. A transparência gera confiança.',
-    context: 'Processo Interno | 2024',
-    tools: ['Notion', 'Figma', 'Miro'],
+    type: 'article',
+    title: 'Por que sua marca precisa de vídeos no TikTok em 2024',
+    description: 'Uma análise profunda sobre a importância do vídeo marketing em redes sociais.',
+    tags: ['tiktok', 'estratégia', 'marketing-digital'],
+    image: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?auto=format&fit=crop&w=800&q=80',
+    content: 'O vídeo marketing não é mais uma tendência, é uma necessidade. As marcas que não investem em conteúdo de vídeo estão perdendo 85% do seu potencial de engajamento. Neste artigo, exploro as estratégias mais eficazes para criar conteúdo viral que converte...',
+    client: 'Editorial',
+    date: '2024-04-10',
+    likes: 456,
   },
   {
     id: 3,
-    type: 'essay',
-    title: 'Ensaio: O Futuro do Web Design',
-    description: 'Reflexões sobre a integração de IA e a volta do design brutalista com toques de luxo.',
-    tag: 'Ensaio',
-    image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80',
-    likes: 412,
-    comments: 67,
-    shares: 34,
-    timestamp: '3 dias atrás',
-    fullContent: 'A web está ficando homogênea. Como podemos resgatar a personalidade sem perder a usabilidade? Uma análise de tendências globais e comportamento do usuário em plataformas de curadoria visual.',
-    context: 'Editorial | 2024',
-    tools: ['Pesquisa', 'Análise', 'Escrita'],
+    type: 'video',
+    title: 'Unboxing de Produto: Técnica de Filmagem Profissional',
+    description: 'Técnicas de cinematografia para criar unboxing videos que impressionam.',
+    tags: ['filmagem', 'produto', 'técnica'],
+    image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=800&q=80',
+    youtubeId: 'dQw4w9WgXcQ',
+    client: 'Cliente B',
+    date: '2024-04-05',
+    likes: 189,
   },
   {
     id: 4,
-    type: 'case-study',
-    title: 'E-commerce: Minimalist Home',
-    description: 'Interface de loja virtual focada em conversão e estética editorial.',
-    tag: 'Estudo de Caso',
-    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80',
-    likes: 289,
-    comments: 32,
-    shares: 19,
-    timestamp: '1 semana',
-    fullContent: 'Vender produtos de alto ticket exige uma experiência de navegação que reflita a qualidade do item. Uso de espaços em branco generosos e fotografia de alta qualidade para guiar o olhar do consumidor.',
-    context: 'Cliente: Minimalist Co. | Ano: 2023',
-    tools: ['Shopify', 'Figma', 'Photography'],
+    type: 'article',
+    title: 'Roteiro para Vídeos de Marketing: Estrutura que Converte',
+    description: 'Guia completo sobre como estruturar um roteiro que mantém a atenção do espectador.',
+    tags: ['roteiro', 'copywriting', 'marketing'],
+    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80',
+    content: 'Um bom roteiro é a base de um vídeo de sucesso. Neste artigo, compartilho a estrutura que uso em todos os meus projetos: Hook (primeiros 3 segundos), Problema, Solução e CTA. Aprenda como aplicar isso em seus vídeos...',
+    client: 'Editorial',
+    date: '2024-03-28',
+    likes: 312,
   },
   {
     id: 5,
-    type: 'process',
-    title: 'Curadoria: Inspiração Semanal',
-    description: 'O que estou lendo, vendo e ouvindo esta semana. A vida integrada ao trabalho.',
-    tag: 'Curadoria',
-    image: 'https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=800&q=80',
-    likes: 178,
-    comments: 42,
-    shares: 15,
-    timestamp: '1 semana',
-    fullContent: 'Minha visão estética é alimentada por referências fora do design: arquitetura, cinema e moda. Uma seleção mensal de 5 referências que impactaram meu processo criativo recentemente.',
-    context: 'Curadoria | 2024',
-    tools: ['Pinterest', 'Notion', 'Leitura'],
+    type: 'video',
+    title: 'Campanha de Lançamento: Estratégia 360',
+    description: 'Como criar uma campanha integrada que usa vídeo como pilar principal.',
+    tags: ['campanha', 'lançamento', 'estratégia'],
+    image: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?auto=formathttps://images.unsplash.com/photo-1460925895917-adf4e565db18?auto=format&fit=crop&w=800&q=80fit=crophttps://images.unsplash.com/photo-1460925895917-adf4e565db18?auto=format&fit=crop&w=800&q=80w=800https://images.unsplash.com/photo-1460925895917-adf4e565db18?auto=format&fit=crop&w=800&q=80q=80',
+    youtubeId: 'dQw4w9WgXcQ',
+    client: 'Cliente C',
+    date: '2024-03-20',
+    likes: 567,
   },
   {
     id: 6,
-    type: 'project',
-    title: 'App Design: Flow State',
-    description: 'Aplicativo de produtividade com foco em bem-estar mental.',
-    tag: 'Portfólio',
-    image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=800&q=80',
-    likes: 367,
-    comments: 51,
-    shares: 28,
-    timestamp: '2 semanas',
-    fullContent: 'Como criar uma ferramenta de trabalho que não cause ansiedade? Interface baseada em tons de lilás e transições suaves para manter o usuário em estado de fluxo.',
-    context: 'Cliente: Flow Tech | Ano: 2024',
-    tools: ['React', 'Figma', 'Framer Motion'],
+    type: 'article',
+    title: 'Edição de Vídeo: Ferramentas e Workflow Profissional',
+    description: 'Conheça as ferramentas que uso para editar vídeos de alta qualidade rapidamente.',
+    tags: ['edição', 'ferramentas', 'workflow'],
+    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=formathttps://images.unsplash.com/photo-1533391295329-1d1b0c9a0a0e?auto=format&fit=crop&w=800&q=80fit=crophttps://images.unsplash.com/photo-1533391295329-1d1b0c9a0a0e?auto=format&fit=crop&w=800&q=80w=800https://images.unsplash.com/photo-1533391295329-1d1b0c9a0a0e?auto=format&fit=crop&w=800&q=80q=80',
+    content: 'A edição é onde a magia acontece. Neste artigo, compartilho meu workflow completo: captura, organização de arquivos, edição, correção de cor e exportação. Também recomendo as melhores ferramentas para cada etapa...',
+    client: 'Editorial',
+    date: '2024-03-15',
+    likes: 234,
   },
 ];
 
 const categories = [
   { id: 'all', label: 'Tudo', icon: '✨' },
-  { id: 'project', label: 'Portfólio', icon: '🎨' },
-  { id: 'process', label: 'Bastidores', icon: '🔧' },
-  { id: 'essay', label: 'Ensaios', icon: '✍️' },
-  { id: 'case-study', label: 'Estudos', icon: '📊' },
+  { id: 'video', label: 'Vídeos', icon: '🎬' },
+  { id: 'article', label: 'Artigos', icon: '📝' },
 ];
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState('all');
-  const [likedPosts, setLikedPosts] = useState<Set<number>>(new Set());
+  const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [hasMore, setHasMore] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const filteredPosts = activeCategory === 'all' 
-    ? posts 
-    : posts.filter(p => p.type === activeCategory);
+  // Simular scroll infinito
+  const loadMorePosts = useCallback(() => {
+    const filtered = activeCategory === 'all' 
+      ? allPosts 
+      : allPosts.filter(p => p.type === activeCategory);
+    
+    setDisplayedPosts(filtered);
+    setHasMore(false);
+  }, [activeCategory]);
 
-  const toggleLike = (postId: number) => {
-    const newLiked = new Set(likedPosts);
-    if (newLiked.has(postId)) {
-      newLiked.delete(postId);
-    } else {
-      newLiked.add(postId);
-    }
-    setLikedPosts(newLiked);
-  };
+  useEffect(() => {
+    loadMorePosts();
+  }, [activeCategory, loadMorePosts]);
+
+  // Infinite scroll listener
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+        if (!isLoading && hasMore) {
+          setIsLoading(true);
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 500);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isLoading, hasMore]);
 
   return (
     <div className="feed-container">
@@ -143,8 +140,13 @@ export default function Home() {
       <header className="feed-header">
         <div className="header-inner">
           <div className="logo-section">
-            <h1 className="logo">STUDIO.LILAC</h1>
-            <p className="tagline">Estética, Competência & Visão</p>
+            <h1 className="logo">RAYLLA STUDIO</h1>
+            <p className="tagline">Transformo marcas em conteúdos que vendem</p>
+          </div>
+          <div className="header-social">
+            <a href="https://instagram.com/rayllafotos" target="_blank" rel="noopener noreferrer" className="social-link">
+              Instagram
+            </a>
           </div>
         </div>
       </header>
@@ -170,51 +172,45 @@ export default function Home() {
       {/* Feed */}
       <main className="feed-main">
         <div className="feed-grid">
-          {filteredPosts.map(post => (
+          {displayedPosts.map(post => (
             <article 
               key={post.id} 
-              className="feed-card"
+              className={`feed-card ${post.type}`}
               onClick={() => setSelectedPost(post)}
             >
               <div className="card-image">
                 <img src={post.image} alt={post.title} />
                 <div className="card-overlay">
-                  <span className="card-tag">{post.tag}</span>
+                  <span className="card-tag">{post.type === 'video' ? '🎬 Vídeo' : '📝 Artigo'}</span>
+                  {post.type === 'video' && (
+                    <div className="play-button">
+                      <Play size={32} fill="white" />
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="card-content">
                 <h3 className="card-title">{post.title}</h3>
                 <p className="card-description">{post.description}</p>
-                <div className="card-meta">
-                  <span className="card-time">{post.timestamp}</span>
+                <div className="card-tags">
+                  {post.tags.slice(0, 2).map(tag => (
+                    <span key={tag} className="tag-badge">#{tag}</span>
+                  ))}
                 </div>
-              </div>
-              <div className="card-actions">
-                <button 
-                  className={`action-btn ${likedPosts.has(post.id) ? 'liked' : ''}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleLike(post.id);
-                  }}
-                >
-                  <Heart size={16} fill={likedPosts.has(post.id) ? 'currentColor' : 'none'} />
-                  <span>{post.likes + (likedPosts.has(post.id) ? 1 : 0)}</span>
-                </button>
-                <button className="action-btn" onClick={(e) => e.stopPropagation()}>
-                  <MessageCircle size={16} />
-                  <span>{post.comments}</span>
-                </button>
-                <button className="action-btn" onClick={(e) => e.stopPropagation()}>
-                  <Share2 size={16} />
-                  <span>{post.shares}</span>
-                </button>
-                <button className="action-btn bookmark" onClick={(e) => e.stopPropagation()}>
-                  <Bookmark size={16} />
-                </button>
+                <div className="card-meta">
+                  <span className="card-time">{new Date(post.date).toLocaleDateString('pt-BR')}</span>
+                  <span className="card-likes">❤️ {post.likes}</span>
+                </div>
               </div>
             </article>
           ))}
         </div>
+
+        {isLoading && (
+          <div className="loading-indicator">
+            <div className="spinner"></div>
+          </div>
+        )}
       </main>
 
       {/* Modal */}
@@ -232,44 +228,56 @@ export default function Home() {
             </button>
             
             <div className="modal-body">
-              <div className="modal-image">
-                <img src={selectedPost.image} alt={selectedPost.title} />
-              </div>
+              {selectedPost.type === 'video' && selectedPost.youtubeId ? (
+                <div className="modal-video">
+                  <iframe
+                    width="100%"
+                    height="400"
+                    src={`https://www.youtube.com/embed/${selectedPost.youtubeId}`}
+                    title={selectedPost.title}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              ) : (
+                <div className="modal-image">
+                  <img src={selectedPost.image} alt={selectedPost.title} />
+                </div>
+              )}
               
               <div className="modal-text">
                 <div className="modal-header">
-                  <span className="modal-tag">{selectedPost.tag}</span>
+                  <span className="modal-tag">{selectedPost.type === 'video' ? '🎬 Vídeo' : '📝 Artigo'}</span>
                   <h2 className="modal-title">{selectedPost.title}</h2>
                 </div>
                 
                 <div className="modal-sections">
                   <section className="modal-section">
-                    <h3>Sobre o Projeto</h3>
+                    <h3>Descrição</h3>
                     <p>{selectedPost.description}</p>
                   </section>
                   
-                  {selectedPost.fullContent && (
+                  {selectedPost.content && (
                     <section className="modal-section">
-                      <h3>Detalhes</h3>
-                      <p>{selectedPost.fullContent}</p>
+                      <h3>Conteúdo</h3>
+                      <p>{selectedPost.content}</p>
                     </section>
                   )}
                   
-                  {selectedPost.context && (
-                    <section className="modal-section">
-                      <h3>Informações</h3>
-                      <p>{selectedPost.context}</p>
-                    </section>
-                  )}
+                  <section className="modal-section">
+                    <h3>Tags</h3>
+                    <div className="tags-list">
+                      {selectedPost.tags.map(tag => (
+                        <span key={tag} className="tag-badge-large">#{tag}</span>
+                      ))}
+                    </div>
+                  </section>
                   
-                  {selectedPost.tools && selectedPost.tools.length > 0 && (
+                  {selectedPost.client && (
                     <section className="modal-section">
-                      <h3>Ferramentas & Tecnologias</h3>
-                      <div className="tools-list">
-                        {selectedPost.tools.map(tool => (
-                          <span key={tool} className="tool-badge">{tool}</span>
-                        ))}
-                      </div>
+                      <h3>Cliente</h3>
+                      <p>{selectedPost.client}</p>
                     </section>
                   )}
                 </div>
