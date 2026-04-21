@@ -1,10 +1,10 @@
-# 📚 Guia Completo: Raylla Studio Portfolio Feed
+# # Guia Completo: Raylla Studio Portfolio Feed
 
-Bem-vinda, Raylla! Este guia detalha como gerenciar, atualizar e expandir seu portfólio através do GitHub. Você não precisa de conhecimento técnico avançado — vou deixar tudo bem explicado.
+Bem-vinda, Raylla! Este guia detalha como gerenciar, atualizar e expandir seu portfólio através do GitHub. Você não precisa de conhecimento técnico avançado - vou deixar tudo bem explicado.
 
 ---
 
-## 🎯 Visão Geral da Estrutura
+##  Visão Geral da Estrutura
 
 Seu portfólio é um **React App** hospedado na Manus. A estrutura de pastas é organizada assim:
 
@@ -30,7 +30,7 @@ portfolio-feed/
 
 ---
 
-## 🎬 COMO ADICIONAR POSTS (Vídeos e Artigos)
+##  COMO ADICIONAR POSTS (Vídeos e Artigos)
 
 ### Entendendo a Estrutura de Posts
 
@@ -133,7 +133,7 @@ https://images.unsplash.com/photo-1611532736597-de2d4265fba3?auto=format&fit=cro
 
 ---
 
-## ✏️ COMO MODIFICAR CONTEÚDO EXISTENTE
+## ✏ COMO MODIFICAR CONTEÚDO EXISTENTE
 
 ### Modificar Informações de Contato
 
@@ -217,7 +217,7 @@ const testimonials: Testimonial[] = [
 
 ---
 
-## 🎨 COMO PERSONALIZAR O DESIGN
+##  COMO PERSONALIZAR O DESIGN
 
 ### Alterar Cores
 
@@ -264,7 +264,7 @@ Visite https://fonts.google.com para explorar opções.
 
 ---
 
-## 🌙 COMO ATIVAR MODO ESCURO
+##  COMO ATIVAR MODO ESCURO
 
 O modo escuro já está implementado! Usuários podem ativar clicando no ícone de tema (quando implementado).
 
@@ -276,7 +276,7 @@ Para testar:
 
 ---
 
-## 📱 COMO TESTAR RESPONSIVIDADE
+##  COMO TESTAR RESPONSIVIDADE
 
 Seu site funciona em **desktop, tablet e mobile**. Para testar:
 
@@ -287,7 +287,7 @@ Seu site funciona em **desktop, tablet e mobile**. Para testar:
 
 ---
 
-## 🚀 COMO FAZER DEPLOY (Publicar)
+##  COMO FAZER DEPLOY (Publicar)
 
 Seu site é hospedado automaticamente na Manus. Para publicar mudanças:
 
@@ -302,7 +302,7 @@ Seu site é hospedado automaticamente na Manus. Para publicar mudanças:
 
 ---
 
-## 🐛 SOLUÇÃO DE PROBLEMAS
+##  SOLUÇÃO DE PROBLEMAS
 
 ### "Meu post não aparece no feed"
 
@@ -335,7 +335,7 @@ Seu site é hospedado automaticamente na Manus. Para publicar mudanças:
 
 ---
 
-## 📞 CONTATO E SUPORTE
+##  CONTATO E SUPORTE
 
 Se tiver dúvidas sobre o código ou precisar de ajuda:
 
@@ -345,7 +345,7 @@ Se tiver dúvidas sobre o código ou precisar de ajuda:
 
 ---
 
-## 📋 CHECKLIST PARA MANUTENÇÃO REGULAR
+##  CHECKLIST PARA MANUTENÇÃO REGULAR
 
 - [ ] Adicionar novo post a cada semana
 - [ ] Atualizar feedback de clientes mensalmente
@@ -356,7 +356,7 @@ Se tiver dúvidas sobre o código ou precisar de ajuda:
 
 ---
 
-## 🎓 PRÓXIMOS PASSOS RECOMENDADOS
+##  PRÓXIMOS PASSOS RECOMENDADOS
 
 1. **Adicione seus primeiros 3 posts** (misture vídeos e artigos)
 2. **Customize as cores** para combinar com sua marca
@@ -366,4 +366,4 @@ Se tiver dúvidas sobre o código ou precisar de ajuda:
 
 ---
 
-**Parabéns! Seu portfólio está pronto para crescer. Boa sorte, Raylla! 🚀**
+**Parabéns! Seu portfólio está pronto para crescer. Boa sorte, Raylla! **

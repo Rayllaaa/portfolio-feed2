@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Heart, MessageCircle, Share2, Bookmark, Play } from 'lucide-react';
+import { Play } from 'lucide-react';
 
 interface Post {
   id: number;
@@ -12,7 +12,6 @@ interface Post {
   content?: string;
   client?: string;
   date: string;
-  likes: number;
 }
 
 const allPosts: Post[] = [
@@ -22,11 +21,10 @@ const allPosts: Post[] = [
     title: 'Reels para Ecommerce: Conversão em 15 segundos',
     description: 'Como criar vídeos curtos que vendem. Estratégia de storytelling para aumentar conversão.',
     tags: ['ecommerce', 'reels', 'marketing'],
-    image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=formathttps://images.unsplash.com/photo-1516321318423-f06f70504c11?auto=format&fit=crop&w=800&q=80fit=crophttps://images.unsplash.com/photo-1516321318423-f06f70504c11?auto=format&fit=crop&w=800&q=80w=800https://images.unsplash.com/photo-1516321318423-f06f70504c11?auto=format&fit=crop&w=800&q=80q=80',
+    image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=800&q=80',
     youtubeId: 'dQw4w9WgXcQ',
     client: 'Cliente A',
     date: '2024-04-15',
-    likes: 234,
   },
   {
     id: 2,
@@ -38,7 +36,6 @@ const allPosts: Post[] = [
     content: 'O vídeo marketing não é mais uma tendência, é uma necessidade. As marcas que não investem em conteúdo de vídeo estão perdendo 85% do seu potencial de engajamento. Neste artigo, exploro as estratégias mais eficazes para criar conteúdo viral que converte...',
     client: 'Editorial',
     date: '2024-04-10',
-    likes: 456,
   },
   {
     id: 3,
@@ -50,7 +47,6 @@ const allPosts: Post[] = [
     youtubeId: 'dQw4w9WgXcQ',
     client: 'Cliente B',
     date: '2024-04-05',
-    likes: 189,
   },
   {
     id: 4,
@@ -62,7 +58,6 @@ const allPosts: Post[] = [
     content: 'Um bom roteiro é a base de um vídeo de sucesso. Neste artigo, compartilho a estrutura que uso em todos os meus projetos: Hook (primeiros 3 segundos), Problema, Solução e CTA. Aprenda como aplicar isso em seus vídeos...',
     client: 'Editorial',
     date: '2024-03-28',
-    likes: 312,
   },
   {
     id: 5,
@@ -70,11 +65,10 @@ const allPosts: Post[] = [
     title: 'Campanha de Lançamento: Estratégia 360',
     description: 'Como criar uma campanha integrada que usa vídeo como pilar principal.',
     tags: ['campanha', 'lançamento', 'estratégia'],
-    image: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?auto=formathttps://images.unsplash.com/photo-1460925895917-adf4e565db18?auto=format&fit=crop&w=800&q=80fit=crophttps://images.unsplash.com/photo-1460925895917-adf4e565db18?auto=format&fit=crop&w=800&q=80w=800https://images.unsplash.com/photo-1460925895917-adf4e565db18?auto=format&fit=crop&w=800&q=80q=80',
+    image: 'https://images.unsplash.com/photo-1460925895917-adf4e565db18?auto=format&fit=crop&w=800&q=80',
     youtubeId: 'dQw4w9WgXcQ',
     client: 'Cliente C',
     date: '2024-03-20',
-    likes: 567,
   },
   {
     id: 6,
@@ -82,18 +76,17 @@ const allPosts: Post[] = [
     title: 'Edição de Vídeo: Ferramentas e Workflow Profissional',
     description: 'Conheça as ferramentas que uso para editar vídeos de alta qualidade rapidamente.',
     tags: ['edição', 'ferramentas', 'workflow'],
-    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=formathttps://images.unsplash.com/photo-1533391295329-1d1b0c9a0a0e?auto=format&fit=crop&w=800&q=80fit=crophttps://images.unsplash.com/photo-1533391295329-1d1b0c9a0a0e?auto=format&fit=crop&w=800&q=80w=800https://images.unsplash.com/photo-1533391295329-1d1b0c9a0a0e?auto=format&fit=crop&w=800&q=80q=80',
+    image: 'https://images.unsplash.com/photo-1533391295329-1d1b0c9a0a0e?auto=format&fit=crop&w=800&q=80',
     content: 'A edição é onde a magia acontece. Neste artigo, compartilho meu workflow completo: captura, organização de arquivos, edição, correção de cor e exportação. Também recomendo as melhores ferramentas para cada etapa...',
     client: 'Editorial',
     date: '2024-03-15',
-    likes: 234,
   },
 ];
 
 const categories = [
-  { id: 'all', label: 'Tudo', icon: '✨' },
-  { id: 'video', label: 'Vídeos', icon: '🎬' },
-  { id: 'article', label: 'Artigos', icon: '📝' },
+  { id: 'all', label: 'Tudo', icon: '*' },
+  { id: 'video', label: 'Vídeos', icon: '>' },
+  { id: 'article', label: 'Artigos', icon: '=' },
 ];
 
 export default function Home() {
@@ -181,7 +174,7 @@ export default function Home() {
               <div className="card-image">
                 <img src={post.image} alt={post.title} />
                 <div className="card-overlay">
-                  <span className="card-tag">{post.type === 'video' ? '🎬 Vídeo' : '📝 Artigo'}</span>
+                  <span className="card-tag">{post.type === 'video' ? 'Vídeo' : 'Artigo'}</span>
                   {post.type === 'video' && (
                     <div className="play-button">
                       <Play size={32} fill="white" />
@@ -199,7 +192,6 @@ export default function Home() {
                 </div>
                 <div className="card-meta">
                   <span className="card-time">{new Date(post.date).toLocaleDateString('pt-BR')}</span>
-                  <span className="card-likes">❤️ {post.likes}</span>
                 </div>
               </div>
             </article>
@@ -248,7 +240,7 @@ export default function Home() {
               
               <div className="modal-text">
                 <div className="modal-header">
-                  <span className="modal-tag">{selectedPost.type === 'video' ? '🎬 Vídeo' : '📝 Artigo'}</span>
+                  <span className="modal-tag">{selectedPost.type === 'video' ? 'Vídeo' : 'Artigo'}</span>
                   <h2 className="modal-title">{selectedPost.title}</h2>
                 </div>
                 

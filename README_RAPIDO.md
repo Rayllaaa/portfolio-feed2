@@ -1,4 +1,4 @@
-# 🎬 Raylla Studio - Portfólio Feed
+#  Raylla Studio - Portfólio Feed
 
 Bem-vinda ao seu portfólio profissional! Um feed social elegante que transforma suas criações em conteúdo que vende.
 
@@ -42,7 +42,7 @@ Para instruções detalhadas sobre:
 
 👉 Leia: **`GUIA_COMPLETO.md`**
 
-## 🎨 Estrutura do Projeto
+##  Estrutura do Projeto
 
 ```
 client/src/pages/
@@ -54,7 +54,7 @@ client/src/pages/
 └── Testimonials.tsx  ← Edite Feedback
 ```
 
-## 🚀 Publicar Mudanças
+##  Publicar Mudanças
 
 Tudo que você faz no GitHub é publicado automaticamente em 2-5 minutos!
 
@@ -64,28 +64,28 @@ git commit -m "Descrição das mudanças"
 git push
 ```
 
-## 🎯 Tipos de Posts
+##  Tipos de Posts
 
 | Tipo | Uso | Exemplo |
 |------|-----|---------|
 | **Vídeo** | YouTube + comentário | Reel de técnica de filmagem |
 | **Artigo** | Texto + foto | Análise de estratégia |
 
-## 📱 Responsivo
+##  Responsivo
 
 Seu site funciona perfeitamente em:
-- 📱 Mobile
-- 📱 Tablet
+-  Mobile
+-  Tablet
 - 💻 Desktop
 
-## 🌙 Modo Escuro
+##  Modo Escuro
 
 Já implementado! Usuários podem alternar entre claro/escuro.
 
-## ❓ Dúvidas?
+##  Dúvidas?
 
 Consulte o **`GUIA_COMPLETO.md`** — ele tem respostas para tudo!
 
 ---
 
-**Pronto para começar? Adicione seu primeiro post agora! 🚀**
+**Pronto para começar? Adicione seu primeiro post agora! **
