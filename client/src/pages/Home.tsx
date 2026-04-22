@@ -84,9 +84,9 @@ const allPosts: Post[] = [
 ];
 
 const categories = [
-  { id: 'all', label: 'Tudo', icon: '*' },
-  { id: 'video', label: 'Vídeos', icon: '>' },
-  { id: 'article', label: 'Artigos', icon: '=' },
+  { id: 'all', label: 'Tudo' },
+  { id: 'video', label: 'Vídeos' },
+  { id: 'article', label: 'Artigos' },
 ];
 
 export default function Home() {
@@ -154,7 +154,6 @@ export default function Home() {
               onClick={() => setActiveCategory(cat.id)}
             >
               <div className="story-ring">
-                <span className="story-icon">{cat.icon}</span>
               </div>
               <span className="story-label">{cat.label}</span>
             </button>
